@@ -10,6 +10,12 @@ export class UsersRepository {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
+  async findAll(): Promise<UserEntity[]> {
+    return await this.userRepository.find({
+      relations: ['addresses', 'orders'],
+    });
+  }
+
   async findById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { id },
@@ -20,6 +26,7 @@ export class UsersRepository {
     }
     return user;
   }
+
   async findOneByEmailWithPassword(email: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { email },

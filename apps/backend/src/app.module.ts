@@ -6,10 +6,17 @@ import { UsersModule } from '@modules/users/users.module';
 import { OrdersModule } from '@modules/orders/orders.module';
 import { ProductsModule } from '@modules/products/products.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { CategoriesModule } from '@modules/categories/categories.module';
+import { ApiKeysModule } from '@modules/api-keys/api-keys.module';
+import { NestLensModule } from 'nestlens';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    NestLensModule.forRoot({
+      enabled: process.env.NODE_ENV !== 'production',
+      storage: { driver: 'memory' },
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -28,6 +35,8 @@ import { AuthModule } from '@modules/auth/auth.module';
     OrdersModule,
     ProductsModule,
     AuthModule,
+    CategoriesModule,
+    ApiKeysModule,
   ],
   controllers: [],
   providers: [],

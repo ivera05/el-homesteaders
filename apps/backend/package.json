@@ -18,11 +18,13 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d src/data-source.ts",
-    "migration:generate": "pnpm typeorm migration:generate src/migrations/InitSchema",
+    "typeorm": "node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "pnpm typeorm -d src/data-source.ts migration:generate src/migrations/InitSchema",
     "migration:create": "pnpm typeorm migration:create src/migrations/NewMigration",
-    "migration:run": "pnpm typeorm migration:run",
-    "migration:revert": "pnpm typeorm migration:revert"
+    "migration:run": "pnpm typeorm -d src/data-source.ts migration:run",
+    "migration:revert": "pnpm typeorm -d src/data-source.ts migration:revert",
+    "db:drop": "pnpm typeorm schema:drop -d src/data-source.ts",
+    "db:reset": "pnpm db:drop && pnpm migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -37,6 +39,8 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "dotenv": "^17.3.1",
+    "module": "^2.0.0",
+    "nestlens": "^0.4.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.20.0",

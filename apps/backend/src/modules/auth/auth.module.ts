@@ -5,11 +5,12 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from '@modules/users/users.module';
 import { JwtStrategy } from '@modules/auth/strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
-import { ApiKeyGuard } from '@modules/auth/guards/api-key.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ApiKeysModule } from '../api-keys/api-keys.module';
 
 @Module({
   imports: [
+    ApiKeysModule,
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({
@@ -24,7 +25,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   providers: [
     AuthService,
     JwtStrategy,
-    { provide: 'APP_GUARD', useClass: ApiKeyGuard },
     { provide: 'APP_GUARD', useClass: JwtStrategy },
   ],
   exports: [AuthService],

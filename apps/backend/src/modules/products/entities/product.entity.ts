@@ -1,5 +1,14 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { InventoryEntity } from '@modules/products/entities/inventory.entity';
+import { CategoryProductsEntity } from '@/modules/categories/entities/category-products.entity';
 
 @Entity('products')
 export class ProductEntity {
@@ -40,4 +49,16 @@ export class ProductEntity {
 
   @OneToOne(() => InventoryEntity, (inventory) => inventory.product)
   inventory: InventoryEntity;
+
+  @OneToMany(
+    () => CategoryProductsEntity,
+    (categoryProduct) => categoryProduct.product,
+  )
+  categoryProducts: CategoryProductsEntity[];
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

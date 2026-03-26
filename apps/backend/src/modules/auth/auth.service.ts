@@ -2,23 +2,22 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PayloadDto } from '@modules/auth/dto/payload.dto';
 import { LoginDto } from '@modules/auth/dto/login.dto';
-import { UsersRepository } from '@modules/users/users.repository';
 import * as bcrypt from 'bcrypt';
-import { UserDto } from '@modules/users/user.dto';
+import { UserDto } from '@/modules/users/dto/user.dto';
+import { UsersService } from '@modules/users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly userRepository: UsersRepository,
+    private readonly usersService: UsersService,
   ) {}
 
   async validateUser(loginDto: LoginDto): Promise<UserDto> {
     const { email, password } = loginDto;
 
-    const user = await this.userRepository.findOneByEmailWithPassword(email);
+    const user = await this.usersService.findOneByEmailWithPassword(email);
     if (user && (await bcrypt.compare(password, user.password))) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
