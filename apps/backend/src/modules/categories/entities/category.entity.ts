@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  ManyToOne,
+  ManyToOne, JoinColumn,
 } from 'typeorm';
 import { CategoryProductsEntity } from './category-products.entity';
 
@@ -20,16 +20,18 @@ class CategoryEntity {
   @Column('text')
   description: string;
 
-  @Column()
+  @Column({ name: 'is_active' })
   isActive: boolean;
 
   @ManyToOne(() => CategoryEntity, (category) => category.children, {
     nullable: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'parent_id' })
   parent: CategoryEntity;
 
   @OneToMany(() => CategoryEntity, (category) => category.children)
+  @JoinColumn({ name: 'parent_id' })
   children: CategoryEntity[];
 
   @OneToMany(

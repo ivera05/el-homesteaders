@@ -23,11 +23,11 @@ export class CategoriesService {
   }
 
   async findOne(id: string) {
-    return this.categoriesRepository.getCategoryById(id);
+    return this.categoriesRepository.findOneById(id);
   }
 
   async findAll() {
-    return this.categoriesRepository.getAllCategories();
+    return this.categoriesRepository.findAll();
   }
 
   toCategoryEntity(dto: CreateCategoryDto | UpdateCategoryDto): CategoryEntity {

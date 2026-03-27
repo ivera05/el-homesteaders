@@ -1,12 +1,13 @@
 import {
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { OrderEntity } from '@modules/orders/entities/order.entity';
+import { ProductEntity } from '@modules/products/entities/product.entity';
 
 @Entity('order_items')
 export class OrderItemEntity {
@@ -14,10 +15,14 @@ export class OrderItemEntity {
   id: string;
 
   @ManyToOne(() => OrderEntity, (order) => order.items, { nullable: false })
+  @JoinColumn({ name: 'order_id' })
   order: OrderEntity;
 
-  @Column()
-  productId: string;
+  @ManyToOne(() => ProductEntity, (product) => product.orderItems, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'product_id' })
+  product: ProductEntity;
 
   @Column({ name: 'product_name' })
   productName: string;

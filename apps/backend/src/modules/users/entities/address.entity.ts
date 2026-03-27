@@ -4,7 +4,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
+  UpdateDateColumn, JoinColumn,
 } from 'typeorm';
 
 import { UserEntity } from '@modules/users/entities/user.entity';
@@ -36,6 +36,7 @@ export class AddressEntity {
   isDefault: boolean;
 
   @ManyToOne(() => UserEntity, (user) => user.addresses, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
   @CreateDateColumn({ name: 'created_at' })

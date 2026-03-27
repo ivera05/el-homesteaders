@@ -13,7 +13,7 @@ export class ProductsRepository {
   async save(product: ProductEntity): Promise<ProductEntity> {
     return this.productRepository.save(product);
   }
-  async getProductById(id: string): Promise<ProductEntity> {
+  async findOneById(id: string): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({
       where: { id },
       relations: ['inventory'],
@@ -26,7 +26,7 @@ export class ProductsRepository {
     return product;
   }
 
-  async getAllProducts(): Promise<ProductEntity[]> {
+  async findAll(): Promise<ProductEntity[]> {
     return this.productRepository.find({ relations: ['inventory'] });
   }
 }

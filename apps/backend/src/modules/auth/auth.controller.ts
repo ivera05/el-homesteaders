@@ -7,7 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthService } from '@modules/auth/auth.service';
 import { LoginDto } from '@modules/auth/dto/login.dto';
-import { ReadOnlyApiKey } from '@modules/api-keys/decorators/api-key.decorator';
+import { ClientApiKey } from '@modules/api-keys/decorators/api-key.decorator';
 
 @ApiTags('Authentication')
 @ApiSecurity('x-api-key')
@@ -15,7 +15,7 @@ import { ReadOnlyApiKey } from '@modules/api-keys/decorators/api-key.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ReadOnlyApiKey()
+  @ClientApiKey()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login user to receive JWT token' })

@@ -41,7 +41,7 @@ export class UserEntity {
   @Column({ name: 'token_version', default: 1 })
   tokenVersion: number;
 
-  @OneToMany(() => OrderEntity, (order) => order.client)
+  @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];
 
   @OneToMany(() => AddressEntity, (address) => address.user)

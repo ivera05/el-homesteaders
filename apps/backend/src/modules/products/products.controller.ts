@@ -1,29 +1,32 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ProductsService } from '@modules/products/products.service';
-import { CreateProductDto } from '@modules/products/dto/create-product.dto';
-import { Public } from '@modules/auth/decorators/public.decorator';
+import { ProductDto } from '@modules/products/dto/product.dto';
+import { AdminAccessApiKey, ClientApiKey } from '@modules/api-keys/decorators/api-key.decorator';
 
 @ApiTags('Products')
+@ApiSecurity('x-api-key')
 @Controller('/api/products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) {
+  }
 
+  @AdminAccessApiKey()
   @Post()
   @ApiOperation({ summary: 'Create a new product and its inventory' })
   @ApiResponse({ status: 201, description: 'Product created successfully' })
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  create(@Body() productDto: ProductDto) {
+    return this.productsService.create(productDto);
   }
 
-  @Public()
+  @ClientApiKey()
   @Get()
   @ApiOperation({ summary: 'Get all products with stock levels' })
   findAll() {
     return this.productsService.findAll();
   }
 
-  @Public()
+  @ClientApiKey()
   @Get(':id')
   @ApiOperation({ summary: 'Get a single product by ID' })
   findOne(@Param('id') id: string) {

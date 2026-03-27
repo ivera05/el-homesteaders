@@ -3,19 +3,19 @@ import {
   IsNumber,
   IsObject,
   IsOptional,
-  IsString,
-  IsUUID,
+  IsString, IsUUID,
   ValidateNested,
 } from 'class-validator';
 import { NutritionalInfoDto } from '@modules/products/dto/nutritional-info.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateProductDto {
+export class ProductDto {
   @ApiProperty({
     example: '35a65c2c-3d8b-4649-9ae5-e762ab86fcdd',
     description: 'The unique identifier for the product',
   })
   @IsUUID()
+  @IsOptional()
   id: string;
 
   @ApiProperty({
@@ -72,4 +72,11 @@ export class CreateProductDto {
   @ValidateNested()
   @Type(() => NutritionalInfoDto)
   nutritionalInfo?: NutritionalInfoDto;
+
+  @ApiProperty({
+    example: '2024-01-01T00:00:00.000Z',
+    description: 'The date the product was created',
+  })
+  @IsString()
+  createdAt: Date;
 }

@@ -2,7 +2,7 @@ import { UserEntity } from '@modules/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -25,13 +25,14 @@ export class OrderEntity {
   id: string;
 
   @ManyToOne(() => UserEntity, (user) => user.orders)
-  client: UserEntity;
-
-  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
-  status: OrderStatus;
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 
   @OneToMany(() => OrderItemEntity, (item) => item.order, { cascade: true })
   items: OrderItemEntity[];
+
+  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
+  status: OrderStatus;
 
   @Column({ name: 'discount_code' })
   discountCode: string;
@@ -39,11 +40,11 @@ export class OrderEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   subtotal: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ name: 'discount', type: 'decimal', precision: 10, scale: 2 })
   discount: number;
 
-  @Column({ name: 'shipping_cost', type: 'decimal', precision: 10, scale: 2 })
-  shippingCost: number;
+  @Column({ name: 'shipping', type: 'decimal', precision: 10, scale: 2 })
+  shipping: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   tax: number;

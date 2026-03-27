@@ -14,7 +14,7 @@ export class CategoriesRepository {
     return this.categoryRepository.save(category);
   }
 
-  async getCategoryById(id: string): Promise<CategoryEntity> {
+  async findOneById(id: string): Promise<CategoryEntity> {
     const category = await this.categoryRepository.findOne({
       where: { id },
       relations: [
@@ -32,7 +32,7 @@ export class CategoriesRepository {
     return category;
   }
 
-  async getAllCategories(): Promise<CategoryEntity[]> {
+  async findAll(): Promise<CategoryEntity[]> {
     return this.categoryRepository.find({
       relations: [
         'parent',

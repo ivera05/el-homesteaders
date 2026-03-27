@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { InventoryEntity } from '@modules/products/entities/inventory.entity';
 import { CategoryProductsEntity } from '@/modules/categories/entities/category-products.entity';
+import { OrderItemEntity } from '@modules/orders/entities/order-item.entity';
 
 @Entity('products')
 export class ProductEntity {
@@ -33,10 +34,10 @@ export class ProductEntity {
   @Column('decimal', { precision: 10, scale: 2 })
   weight: number;
 
-  @Column()
+  @Column({ name: 'weight_unit'})
   weightUnit: string;
 
-  @Column('jsonb', { nullable: true })
+  @Column('jsonb', { nullable: true, name: 'nutritional_info' })
   nutritionalInfo: {
     calories: number;
     servingSize: string;
@@ -55,6 +56,9 @@ export class ProductEntity {
     (categoryProduct) => categoryProduct.product,
   )
   categoryProducts: CategoryProductsEntity[];
+
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.product)
+  orderItems: OrderItemEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
