@@ -16,7 +16,7 @@ export class InventoryEntity {
   id: string;
 
   @OneToOne(() => ProductEntity, (product) => product.inventory)
-  @JoinColumn()
+  @JoinColumn({ name: 'product_id' })
   product: ProductEntity;
 
   @Column({ name: 'available_qty', default: 0 })
