@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderEntity } from '@modules/orders/entities/order.entity';
 import { Repository } from 'typeorm';
-import { ListOrdersDto } from '@modules/orders/dto/list-orders.dto';
-import { PaginatedOrdersResponseDto } from '@modules/orders/dto/paginated-orders-response.dto';
+import { QueryOrdersDto } from '@modules/orders/dto/query-orders.dto';
+import { PaginatedOrdersDto } from '@modules/orders/dto/paginated-orders.dto';
 import { OrderMapper } from '@modules/orders/mappers/order.mapper';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class OrdersRepository {
     return this.ordersRepository.save(order);
   }
 
-  async findAll(query: ListOrdersDto): Promise<PaginatedOrdersResponseDto> {
+  async findAll(query: QueryOrdersDto): Promise<PaginatedOrdersDto> {
     const { userId, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
@@ -29,14 +29,14 @@ export class OrdersRepository {
       take: limit,
     });
     return {
-      data: data.map((order) => OrderMapper.toDto(order)),
+      items: data.map((order) => OrderMapper.toDto(order)),
       meta: {
         total,
         page,
         limit,
         totalPages: Math.ceil(total / limit),
       },
-    } as PaginatedOrdersResponseDto;
+    } as PaginatedOrdersDto;
   }
 
   async findOneById(id: string): Promise<OrderEntity> {

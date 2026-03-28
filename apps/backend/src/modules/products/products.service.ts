@@ -1,37 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { ProductsRepository } from '@modules/products/products.repository';
-import { ProductDto } from '@modules/products/dto/product.dto';
-import { ProductEntity } from '@modules/products/entities/product.entity';
+import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.dto';
+import { QueryProductsDto } from '@modules/products/dto/query-products.dto';
+import { CreateProductDto } from '@modules/products/dto/create-product.dto';
+import { UpdateProductDto } from '@modules/products/dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  async create(productDto: ProductDto) {
-    const product = this.toProductEntity({
-      ...productDto,
-    });
-    return this.productsRepository.save(product);
+  async create(productDto: CreateProductDto) {
+    return this.productsRepository.save(productDto);
   }
 
-  async update(id: string, productDto: ProductDto) {
-    const product = this.toProductEntity({
-      ...productDto,
-    });
-    return this.productsRepository.save(product);
+  async update(productDto: UpdateProductDto) {
+    return this.productsRepository.save(productDto);
   }
 
   async findOne(id: string) {
     return this.productsRepository.findOneById(id);
   }
 
-  async findAll() {
-    return this.productsRepository.findAll();
-  }
-
-  toProductEntity(dto: ProductDto): ProductEntity {
-    return {
-      ...dto,
-    } as ProductEntity;
+  async findAll(query: QueryProductsDto): Promise<PaginatedProductsDto> {
+    return this.productsRepository.findAll(query);
   }
 }

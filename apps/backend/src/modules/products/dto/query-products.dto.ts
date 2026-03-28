@@ -2,11 +2,11 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class ListOrdersDto {
-  @ApiPropertyOptional({ description: 'Filter orders by user ID' })
+export class QueryProductsDto {
+  @ApiPropertyOptional({ description: 'Filter products by category ID' })
   @IsOptional()
   @IsString()
-  userId?: string;
+  categoryId?: string;
 
   @ApiPropertyOptional({ description: 'Page number for pagination' })
   @Transform(({ value }) => Number(value))

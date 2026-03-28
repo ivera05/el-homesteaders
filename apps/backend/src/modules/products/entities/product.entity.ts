@@ -39,12 +39,12 @@ export class ProductEntity {
 
   @Column('jsonb', { nullable: true, name: 'nutritional_info' })
   nutritionalInfo: {
-    calories: number;
-    servingSize: string;
-    protein: string;
-    fat: string;
-    sugar: string;
-    carbohydrates: string;
+    calories?: number;
+    servingSize?: string;
+    protein?: string;
+    fat?: string;
+    sugar?: string;
+    carbohydrates?: string;
     ingredients: string[];
   };
 

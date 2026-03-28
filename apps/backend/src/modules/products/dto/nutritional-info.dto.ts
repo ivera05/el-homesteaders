@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class NutritionalInfoDto {
@@ -6,43 +6,49 @@ export class NutritionalInfoDto {
     example: '70',
     description: 'The calories of the product in kcal',
   })
+  @IsOptional()
   @IsNumber()
-  calories: number;
+  calories?: number;
 
   @ApiProperty({
     example: '1 Serving Size Per Pouch',
     description: 'The serving size of the product',
   })
+  @IsOptional()
   @IsString()
-  servingSize: string;
+  servingSize?: string;
 
   @ApiProperty({
     example: '1g',
     description: 'The protein content of the product',
   })
+  @IsOptional()
   @IsString()
-  protein: string;
+  protein?: string;
 
   @ApiProperty({
     example: '10g',
     description: 'The fat content of the product',
   })
+  @IsOptional()
   @IsString()
-  fat: string;
+  fat?: string;
 
   @ApiProperty({
     example: '1g',
     description: 'The sugar content of the product',
   })
   @IsString()
-  sugar: string;
+  @IsOptional()
+  sugar?: string;
 
   @ApiProperty({
     example: '10g',
     description: 'The carbohydrate content of the product',
   })
+  @IsOptional()
   @IsString()
-  carbohydrates: string;
+  carbohydrates?: string;
 
   @ApiProperty({
     example: [

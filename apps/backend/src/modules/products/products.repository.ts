@@ -2,6 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductEntity } from '@modules/products/entities/product.entity';
+import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.dto';
+import { QueryProductsDto } from '@modules/products/dto/query-products.dto';
+import { ProductMapper } from '@modules/products/mappers/product.mapper';
+import { CreateProductDto } from '@modules/products/dto/create-product.dto';
+import { UpdateProductDto } from '@modules/products/dto/update-product.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -10,13 +15,14 @@ export class ProductsRepository {
     private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
-  async save(product: ProductEntity): Promise<ProductEntity> {
-    return this.productRepository.save(product);
+  async save(product: CreateProductDto | UpdateProductDto): Promise<ProductEntity> {
+    return this.productRepository.save(ProductMapper.toEntity(product));
   }
+
   async findOneById(id: string): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({
       where: { id },
-      relations: ['inventory'],
+      relations: ['inventory', 'categoryProducts', 'categoryProducts.category'],
     });
 
     if (!product) {
@@ -26,7 +32,34 @@ export class ProductsRepository {
     return product;
   }
 
-  async findAll(): Promise<ProductEntity[]> {
-    return this.productRepository.find({ relations: ['inventory'] });
+  async findAll(query: QueryProductsDto): Promise<PaginatedProductsDto> {
+    const {categoryId, page = 1, limit = 20} = query;
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await this.productRepository.findAndCount({
+      where: categoryId
+        ? {
+            categoryProducts: {
+              category: {
+                id: categoryId,
+              },
+            },
+          }
+        : {},
+      relations: ['inventory', 'categoryProducts', 'categoryProducts.category'],
+      order: { createdAt: 'DESC' },
+      skip,
+      take: limit,
+    });
+
+    return {
+      items: items.map((product) => ProductMapper.toDto(product)),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 }

@@ -1,13 +1,16 @@
-import { Type } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsNumber,
   IsObject,
   IsOptional,
-  IsString, IsUUID,
+  IsString,
+  IsUUID,
+  IsDateString,
   ValidateNested,
 } from 'class-validator';
-import { NutritionalInfoDto } from '@modules/products/dto/nutritional-info.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { NutritionalInfoDto } from './nutritional-info.dto';
+import { InventoryDto } from './inventory.dto';
 
 export class ProductDto {
   @ApiProperty({
@@ -15,8 +18,13 @@ export class ProductDto {
     description: 'The unique identifier for the product',
   })
   @IsUUID()
-  @IsOptional()
   id: string;
+
+  @ApiPropertyOptional({ type: () => InventoryDto })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => InventoryDto)
+  inventory?: InventoryDto;
 
   @ApiProperty({
     example: 'Freeze Dried Sour Worms',
@@ -64,7 +72,8 @@ export class ProductDto {
   @IsString()
   weightUnit: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
+    type: () => NutritionalInfoDto,
     description: 'Nutritional information for the candy',
   })
   @IsOptional()
@@ -77,6 +86,13 @@ export class ProductDto {
     example: '2024-01-01T00:00:00.000Z',
     description: 'The date the product was created',
   })
-  @IsString()
+  @IsDateString()
   createdAt: Date;
+
+  @ApiProperty({
+    example: '2024-01-01T00:00:00.000Z',
+    description: 'The date the product was last updated',
+  })
+  @IsDateString()
+  updatedAt: Date;
 }
