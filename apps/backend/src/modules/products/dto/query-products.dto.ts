@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class QueryProductsDto {
@@ -7,6 +7,12 @@ export class QueryProductsDto {
   @IsOptional()
   @IsString()
   categoryId?: string;
+
+  @ApiPropertyOptional({ description: 'Filter products by featured status' })
+  @Transform(({ value }) => Boolean(value))
+  @IsOptional()
+  @IsBoolean()
+  isFeatured?: boolean;
 
   @ApiPropertyOptional({ description: 'Page number for pagination' })
   @Transform(({ value }) => Number(value))

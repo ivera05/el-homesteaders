@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, MoreThan, Repository } from 'typeorm';
 import { ProductEntity } from '@modules/products/entities/product.entity';
 import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.dto';
 import { QueryProductsDto } from '@modules/products/dto/query-products.dto';
@@ -15,7 +15,9 @@ export class ProductsRepository {
     private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
-  async save(product: CreateProductDto | UpdateProductDto): Promise<ProductEntity> {
+  async save(
+    product: CreateProductDto | UpdateProductDto,
+  ): Promise<ProductEntity> {
     return this.productRepository.save(ProductMapper.toEntity(product));
   }
 
@@ -33,11 +35,39 @@ export class ProductsRepository {
   }
 
   async findAll(query: QueryProductsDto): Promise<PaginatedProductsDto> {
-    const {categoryId, page = 1, limit = 20} = query;
+    const { categoryId, isFeatured, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const [items, total] = await this.productRepository.findAndCount({
-      where: categoryId
+    const where = isFeatured
+      ? [
+          {
+            ...(categoryId
+              ? {
+                  categoryProducts: {
+                    category: {
+                      id: categoryId,
+                    },
+                  },
+                }
+              : {}),
+            isFeatured: true,
+            featuredUntil: IsNull(),
+          },
+          {
+            ...(categoryId
+              ? {
+                  categoryProducts: {
+                    category: {
+                      id: categoryId,
+                    },
+                  },
+                }
+              : {}),
+            isFeatured: true,
+            featuredUntil: MoreThan(new Date()),
+          },
+        ]
+      : categoryId
         ? {
             categoryProducts: {
               category: {
@@ -45,7 +75,10 @@ export class ProductsRepository {
               },
             },
           }
-        : {},
+        : {};
+
+    const [items, total] = await this.productRepository.findAndCount({
+      where,
       relations: ['inventory', 'categoryProducts', 'categoryProducts.category'],
       order: { createdAt: 'DESC' },
       skip,

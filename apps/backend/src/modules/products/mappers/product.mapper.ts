@@ -12,10 +12,11 @@ export class ProductMapper {
     const entity = existingEntity || new ProductEntity();
 
     if (dto.title !== undefined) entity.title = dto.title;
+    if(dto.slug !== undefined) entity.slug = dto.slug;
+    if (dto.sku !== undefined) entity.sku = dto.sku;
     if (dto.description !== undefined) entity.description = dto.description;
     if (dto.price !== undefined) entity.price = dto.price;
     if (dto.imageUrl !== undefined) entity.imageUrl = dto.imageUrl;
-    if (dto.sku !== undefined) entity.sku = dto.sku;
     if (dto.weight !== undefined) entity.weight = dto.weight;
     if (dto.weightUnit !== undefined) entity.weightUnit = dto.weightUnit;
 
@@ -35,6 +36,8 @@ export class ProductMapper {
     const dto = new ProductDto();
 
     dto.id = entity.id;
+    dto.slug = entity.slug;
+    dto.sku = entity.sku;
     dto.title = entity.title;
     dto.description = entity.description;
 
@@ -42,13 +45,15 @@ export class ProductMapper {
     dto.weight = Number(entity.weight);
 
     dto.imageUrl = entity.imageUrl;
-    dto.sku = entity.sku;
     dto.weightUnit = entity.weightUnit;
     dto.nutritionalInfo = entity.nutritionalInfo;
 
     if (entity.inventory) {
       dto.inventory = InventoryMapper.toDto(entity.inventory);
     }
+
+    dto.isFeatured = entity.isFeatured;
+    dto.featuredUntil = entity.featuredUntil;
 
     dto.createdAt = entity.createdAt;
     dto.updatedAt = entity.updatedAt;

@@ -5,9 +5,10 @@ import { ProductEntity } from '@modules/products/entities/product.entity';
 import { InventoryEntity } from '@modules/products/entities/inventory.entity';
 import { ProductsRepository } from '@modules/products/products.repository';
 import { ProductsController } from '@modules/products/products.controller';
+import { ProductStatsEntity } from '@modules/products/entities/product-stats.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductEntity, InventoryEntity])],
+  imports: [TypeOrmModule.forFeature([InventoryEntity, ProductEntity, ProductStatsEntity])],
   providers: [ProductsService, ProductsRepository],
   controllers: [ProductsController],
   exports: [ProductsService],

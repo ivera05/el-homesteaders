@@ -14,6 +14,9 @@ class CategoryEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ unique: true })
+  slug: string;
+
   @Column()
   name: string;
 
@@ -30,8 +33,7 @@ class CategoryEntity {
   @JoinColumn({ name: 'parent_id' })
   parent: CategoryEntity;
 
-  @OneToMany(() => CategoryEntity, (category) => category.children)
-  @JoinColumn({ name: 'parent_id' })
+  @OneToMany(() => CategoryEntity, (category) => category.parent)
   children: CategoryEntity[];
 
   @OneToMany(

@@ -9,6 +9,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { CategoriesModule } from '@modules/categories/categories.module';
 import { ApiKeysModule } from '@modules/api-keys/api-keys.module';
 import { NestLensModule } from 'nestlens';
+import { CartsModule } from '@modules/carts/carts.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { NestLensModule } from 'nestlens';
     AuthModule,
     CategoriesModule,
     ApiKeysModule,
+    CartsModule,
   ],
   controllers: [],
   providers: [],

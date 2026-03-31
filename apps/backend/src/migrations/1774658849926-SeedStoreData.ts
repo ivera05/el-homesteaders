@@ -12,8 +12,8 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
     // 1. Insert Categories
     for (const cat of categories) {
       await queryRunner.query(`
-        INSERT INTO categories (id, name, description, is_active)
-        VALUES ('${cat.id}', '${cat.name}', 'Premium ${cat.name} selection', TRUE)
+        INSERT INTO categories (id, name, slug, description, is_active)
+        VALUES ('${cat.id}', '${cat.name}', '${cat.slug}', 'Premium ${cat.name} selection', TRUE)
       `);
     }
 
@@ -22,6 +22,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[0].id,
         title: 'Freeze Dried Sour Worms',
+        slug: 'sour-worms',
         sku: 'CAN-001',
         price: 8.99,
         weight: 4.0,
@@ -33,6 +34,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[0].id,
         title: 'Crunchy Marshmallow Bits',
+        slug: 'marshmallow-bits',
         sku: 'CAN-002',
         price: 6.5,
         weight: 2.5,
@@ -41,6 +43,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[0].id,
         title: 'Freeze Dried Peach Rings',
+        slug: 'peach-rings',
         sku: 'CAN-003',
         price: 8.99,
         weight: 4.0,
@@ -52,6 +55,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[0].id,
         title: 'Exploding Saltwater Taffy',
+        slug: 'taffy',
         sku: 'CAN-004',
         price: 7.99,
         weight: 3.5,
@@ -63,6 +67,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[0].id,
         title: 'Freeze Dried Gummy Bears',
+        slug: 'gummy-bears',
         sku: 'CAN-005',
         price: 8.5,
         weight: 4.0,
@@ -76,6 +81,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[1].id,
         title: 'Freeze Dried Sliced Strawberries',
+        slug: 'strawberries',
         sku: 'FRU-001',
         price: 11.99,
         weight: 2.0,
@@ -84,6 +90,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[1].id,
         title: 'Crunchy Mango Slices',
+        slug: 'mango-slices',
         sku: 'FRU-002',
         price: 10.5,
         weight: 2.5,
@@ -92,6 +99,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[1].id,
         title: 'Freeze Dried Banana Coins',
+        slug: 'banana-coins',
         sku: 'FRU-003',
         price: 7.99,
         weight: 3.0,
@@ -100,6 +108,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[1].id,
         title: 'Crispy Dragon Fruit',
+        slug: 'dragon-fruit',
         sku: 'FRU-004',
         price: 13.5,
         weight: 1.8,
@@ -108,6 +117,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[1].id,
         title: 'Freeze Dried Apple Wedges',
+        slug: 'apple-wedges',
         sku: 'FRU-005',
         price: 9.0,
         weight: 2.2,
@@ -118,6 +128,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[2].id,
         title: 'Freeze Dried Chamoy Skittles',
+        slug: 'chamoy-skittles',
         sku: 'MEX-001',
         price: 9.99,
         weight: 5.0,
@@ -126,6 +137,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[2].id,
         title: 'Spicy Freeze Dried Watermelon',
+        slug: 'watermelon',
         sku: 'MEX-002',
         price: 10.99,
         weight: 3.0,
@@ -137,6 +149,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[2].id,
         title: 'Freeze Dried Quail Eggs (Savory)',
+        slug: 'quail-eggs',
         sku: 'MEX-003',
         price: 15.0,
         weight: 4.0,
@@ -145,6 +158,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[2].id,
         title: 'Chili-Lime Freeze Dried Pineapple',
+        slug: 'pineapple',
         sku: 'MEX-004',
         price: 10.5,
         weight: 2.8,
@@ -156,6 +170,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       {
         catId: categories[2].id,
         title: 'Freeze Dried Pulparindo Style Bites',
+        slug: 'pulparindo-bites',
         sku: 'MEX-005',
         price: 9.5,
         weight: 4.5,
@@ -168,8 +183,8 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
 
       // Insert Product
       await queryRunner.query(`
-        INSERT INTO products (id, title, description, price, image_url, sku, weight, weight_unit, nutritional_info)
-        VALUES ('${productId}', '${p.title}', 'Authentic freeze-dried texture.', ${p.price}, 'https://placehold.co/400',
+        INSERT INTO products (id, title, slug, description, price, image_url, sku, weight, weight_unit, nutritional_info)
+        VALUES ('${productId}', '${p.title}', '${p.slug}', 'Authentic freeze-dried texture.', ${p.price}, 'https://placehold.co/400',
                 '${p.sku}', ${p.weight}, 'oz', '${JSON.stringify(p.info)}')
       `);
 
