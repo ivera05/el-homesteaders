@@ -20,6 +20,10 @@ export class CategoriesService {
     return this.categoriesRepository.findMenu();
   }
 
+  async findCategoryProducts(slug: string, query: QueryCategoryDto) {
+    return this.categoriesRepository.findCategoryProducts(slug, query);
+  }
+
   async findAll(@Query() query: QueryCategoryDto) {
     return this.categoriesRepository.findAll(query);
   }
