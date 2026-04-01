@@ -1,38 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Query } from '@nestjs/common';
 import { CategoriesRepository } from './category.repository';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import CategoryEntity from './entities/category.entity';
+import { QueryCategoryDto } from '@modules/categories/dto/query-category.dto';
 
 @Injectable()
 export class CategoriesService {
   constructor(private readonly categoriesRepository: CategoriesRepository) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const category = this.toCategoryEntity({
-      ...createCategoryDto,
-    });
-    return this.categoriesRepository.save(category);
+    return this.categoriesRepository.save(createCategoryDto);
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    const category = this.toCategoryEntity({
-      ...updateCategoryDto,
-    });
-    return this.categoriesRepository.save(category);
+  async update(updateCategoryDto: UpdateCategoryDto) {
+    return this.categoriesRepository.save(updateCategoryDto);
   }
 
-  async findOne(id: string) {
-    return this.categoriesRepository.findOneById(id);
+  async findCategoryMenu() {
+    return this.categoriesRepository.findMenu();
   }
 
-  async findAll() {
-    return this.categoriesRepository.findAll();
-  }
-
-  toCategoryEntity(dto: CreateCategoryDto | UpdateCategoryDto): CategoryEntity {
-    return {
-      ...dto,
-    } as CategoryEntity;
+  async findAll(@Query() query: QueryCategoryDto) {
+    return this.categoriesRepository.findAll(query);
   }
 }

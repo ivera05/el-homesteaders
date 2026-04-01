@@ -31,7 +31,7 @@ class CategoryEntity {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'parent_id' })
-  parent: CategoryEntity;
+  parent?: CategoryEntity;
 
   @OneToMany(() => CategoryEntity, (category) => category.parent)
   children: CategoryEntity[];

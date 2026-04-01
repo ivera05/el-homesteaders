@@ -1,12 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsArray, IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class QueryProductsDto {
-  @ApiPropertyOptional({ description: 'Filter products by category ID' })
+export class QueryProductDto {
+  @ApiPropertyOptional({ description: 'Array of slugs to filter products by' })
   @IsOptional()
-  @IsString()
-  categoryId?: string;
+  @IsArray()
+  @IsString({ each: true })
+  slugs?: string[];
 
   @ApiPropertyOptional({ description: 'Filter products by featured status' })
   @Transform(({ value }) => Boolean(value))

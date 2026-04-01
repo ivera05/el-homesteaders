@@ -1,26 +1,41 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* In v4, custom colors are defined as CSS variables
+    inside the @theme block.
+  */
+  --color-el-beige-light: #EAE1D1;
+  --color-el-beige-accent: #D9C9B1;
+  --color-el-beige-dark: #2A261F;
+
+  --color-el-primary-light: #5D4037;
+  --color-el-primary-dark: #EAE1D1;
+
+  /* Custom Font (if you want to map a specific font family) */
+  --font-serif: "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Base Styles */
+@layer base {
+  *, ::after, ::before {
+    @apply transition-colors duration-300 ease-in-out;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-el-beige-light text-stone-900 antialiased;
+  }
+
+  /* Dark mode in v4 is often handled by the 'dark' variant
+    which looks for the .dark class on a parent (like <html>)
+  */
+  .dark body {
+    @apply bg-el-beige-dark text-stone-200;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom Component Utilities */
+@layer components {
+  .nav-link {
+    @apply hover:text-el-primary-light dark:hover:text-el-primary-dark transition-colors;
+  }
 }

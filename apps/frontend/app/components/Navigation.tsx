@@ -1,16 +1,21 @@
-'use client';
+"use client";
 
 import Link from "next/link";
+import { CategoryMenuItem } from "@/app/types/categories";
 
-export default function Navigation() {
-  const navItems = ['Home', 'Fruits', 'Mexican Candies', 'Others'];
+type NavigationProps = {
+  items: CategoryMenuItem[];
+};
 
+export default function Navigation({ items = [] }: NavigationProps) {
   return (
     <nav className="sticky top-0 z-50 bg-stone-800 text-stone-100 shadow-md">
       <ul className="flex justify-center gap-8 py-3 text-sm uppercase tracking-widest font-semibold">
-        {navItems.map((item) => (
-          <li key={item}>
-            <Link href={`/${item.toLowerCase()}`} className="hover:text-stone-200">{item}</Link>
+        {items.map((item) => (
+          <li key={item.id}>
+            <Link href={`/${item.slug}`} className="hover:text-stone-200">
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProductsRepository } from '@modules/products/products.repository';
 import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.dto';
-import { QueryProductsDto } from '@modules/products/dto/query-products.dto';
+import { QueryProductDto } from '@modules/products/dto/query-product.dto';
 import { CreateProductDto } from '@modules/products/dto/create-product.dto';
 import { UpdateProductDto } from '@modules/products/dto/update-product.dto';
 
@@ -21,7 +21,7 @@ export class ProductsService {
     return this.productsRepository.findOneById(id);
   }
 
-  async findAll(query: QueryProductsDto): Promise<PaginatedProductsDto> {
+  async findAll(query: QueryProductDto): Promise<PaginatedProductsDto> {
     return this.productsRepository.findAll(query);
   }
 }

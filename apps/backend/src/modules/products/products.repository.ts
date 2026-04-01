@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, MoreThan, Repository } from 'typeorm';
+import { In, IsNull, MoreThan, Repository } from 'typeorm';
 import { ProductEntity } from '@modules/products/entities/product.entity';
 import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.dto';
-import { QueryProductsDto } from '@modules/products/dto/query-products.dto';
+import { QueryProductDto } from '@modules/products/dto/query-product.dto';
 import { ProductMapper } from '@modules/products/mappers/product.mapper';
 import { CreateProductDto } from '@modules/products/dto/create-product.dto';
 import { UpdateProductDto } from '@modules/products/dto/update-product.dto';
@@ -13,7 +13,8 @@ export class ProductsRepository {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
-  ) {}
+  ) {
+  }
 
   async save(
     product: CreateProductDto | UpdateProductDto,
@@ -34,47 +35,33 @@ export class ProductsRepository {
     return product;
   }
 
-  async findAll(query: QueryProductsDto): Promise<PaginatedProductsDto> {
-    const { categoryId, isFeatured, page = 1, limit = 20 } = query;
+  async findAll(query: QueryProductDto): Promise<PaginatedProductsDto> {
+    const { slugs, isFeatured, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const where = isFeatured
       ? [
-          {
-            ...(categoryId
-              ? {
-                  categoryProducts: {
-                    category: {
-                      id: categoryId,
-                    },
-                  },
-                }
-              : {}),
-            isFeatured: true,
-            featuredUntil: IsNull(),
-          },
-          {
-            ...(categoryId
-              ? {
-                  categoryProducts: {
-                    category: {
-                      id: categoryId,
-                    },
-                  },
-                }
-              : {}),
-            isFeatured: true,
-            featuredUntil: MoreThan(new Date()),
-          },
-        ]
-      : categoryId
+        {
+          ...(isFeatured
+            ? {
+              isFeatured: true,
+              featuredUntil: IsNull(),
+            }
+            : {}),
+        },
+        {
+          ...(isFeatured
+            ? {
+              isFeatured: true,
+              featuredUntil: MoreThan(new Date()),
+            }
+            : {}),
+        },
+      ]
+      : slugs && slugs.length > 1
         ? {
-            categoryProducts: {
-              category: {
-                id: categoryId,
-              },
-            },
-          }
+          slug: In(slugs),
+        }
         : {};
 
     const [items, total] = await this.productRepository.findAndCount({

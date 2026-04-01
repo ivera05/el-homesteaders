@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger
 import { ProductsService } from '@modules/products/products.service';
 import { ProductDto } from '@modules/products/dto/product.dto';
 import { AdminAccessApiKey, ClientApiKey } from '@modules/api-keys/decorators/api-key.decorator';
-import { QueryProductsDto } from '@modules/products/dto/query-products.dto';
+import { QueryProductDto } from '@modules/products/dto/query-product.dto';
 
 @ApiTags('Products')
 @ApiSecurity('x-api-key')
@@ -24,7 +24,7 @@ export class ProductsController {
   @Get()
   @ApiOperation({ summary: 'Get all products with stock levels paginated and optionally filtered' })
   @ApiResponse({ status: 200, description: 'List of products, if any' })
-  findAll(@Query() query: QueryProductsDto) {
+  findAll(@Query() query: QueryProductDto) {
     return this.productsService.findAll(query);
   }
 

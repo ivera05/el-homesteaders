@@ -1,7 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '@modules/categories/categories.service';
 import { ClientApiKey } from '@modules/api-keys/decorators/api-key.decorator';
+import { QueryCategoryDto } from '@modules/categories/dto/query-category.dto';
 
 @ApiTags('Categories')
 @ApiSecurity('x-api-key')
@@ -10,23 +11,16 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @ClientApiKey()
+  @Get('/menu')
+  @ApiOperation({ summary: 'Gets a list of root categories.' })
+  findCategoryMenu() {
+    return this.categoriesService.findCategoryMenu();
+  }
+
+  @ClientApiKey()
   @Get()
   @ApiOperation({ summary: 'Gets a list of all categories.' })
-  findAll() {
-    return this.categoriesService.findAll();
-  }
-
-  @ClientApiKey()
-  @Get(':id')
-  @ApiOperation({ summary: 'Gets a single category by ID.' })
-  findOneById(@Param('id') id: string) {
-    return this.categoriesService.findOne(id);
-  }
-
-  @ClientApiKey()
-  @Get(':name')
-  @ApiOperation({ summary: 'Gets a single category by name.' })
-  findOneByName(@Param('name') name: string) {
-    return this.categoriesService.findOne(name);
+  findAll(@Query() query: QueryCategoryDto) {
+    return this.categoriesService.findAll(query);
   }
 }
