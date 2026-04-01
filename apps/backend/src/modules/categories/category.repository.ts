@@ -71,7 +71,6 @@ export class CategoriesRepository {
     const skip = (page - 1) * limit;
 
     const [items, total] = await this.categoryRepository.findAndCount({
-      // where,
       relations: [
         'parent',
         'children',
