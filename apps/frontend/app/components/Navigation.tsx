@@ -13,7 +13,7 @@ export default function Navigation({ items = [] }: NavigationProps) {
       <ul className="flex justify-center gap-8 py-3 text-sm uppercase tracking-widest font-semibold">
         {items.map((item) => (
           <li key={item.id}>
-            <Link href={`/${item.slug}`} className="hover:text-stone-200">
+            <Link href={`/category/${item.slug}`} className="hover:text-stone-200">
               {item.name}
             </Link>
           </li>
