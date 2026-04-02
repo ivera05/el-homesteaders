@@ -1,7 +1,7 @@
 import { CategoryPageProps } from "@/app/types";
 import { categoriesApi } from "@/app/api/categories";
-import ProductCard from "@/app/components/ProductCard";
 import Link from "next/link";
+import ProductGrid from "@/app/components/ProductGrid";
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { slug } = await params;
@@ -13,20 +13,11 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-serif text-stone-800 dark:text-stone-100 mb-12 capitalize">
+      <h1 className="text-4xl font-serif text-stone-800 mb-12 capitalize">
         {category.name}
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-        {items.map((product) => (
-          <ProductCard
-            key={product.id}
-            name={product.title}
-            price={product.price}
-            imageUrl={product.imageUrl}
-          />
-        ))}
-      </div>
+      <ProductGrid items={items} />
 
       {/* Simple Pagination Controls */}
       <div className="flex justify-center items-center gap-4 border-t border-stone-200 dark:border-stone-700 pt-8">

@@ -4,13 +4,13 @@ import { ProductsService } from '@modules/products/products.service';
 import { ProductDto } from '@modules/products/dto/product.dto';
 import { AdminAccessApiKey, ClientApiKey } from '@modules/api-keys/decorators/api-key.decorator';
 import { QueryProductDto } from '@modules/products/dto/query-product.dto';
+import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.dto';
 
 @ApiTags('Products')
 @ApiSecurity('x-api-key')
 @Controller('/api/products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {
-  }
+  constructor(private readonly productsService: ProductsService) {}
 
   @AdminAccessApiKey()
   @Post()
@@ -22,16 +22,17 @@ export class ProductsController {
 
   @ClientApiKey()
   @Get()
-  @ApiOperation({ summary: 'Get all products with stock levels paginated and optionally filtered' })
-  @ApiResponse({ status: 200, description: 'List of products, if any' })
+  @ApiOperation({ summary: 'Get all products with stock levels paginated and optionally filtered', })
+  @ApiResponse({ status: 200, type: PaginatedProductsDto, description: 'List of products, if any' })
   findAll(@Query() query: QueryProductDto) {
     return this.productsService.findAll(query);
   }
 
   @ClientApiKey()
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a single product by ID' })
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
+  @Get(':slug')
+  @ApiOperation({ summary: 'Get a single product by slug' })
+  @ApiResponse({ status: 200, type: ProductDto, description: 'Product details' })
+  findOne(@Param('slug') slug: string) {
+    return this.productsService.findBySlug(slug);
   }
 }

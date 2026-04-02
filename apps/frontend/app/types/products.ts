@@ -9,9 +9,14 @@ interface Inventory {
   updatedAt: Date;
 }
 
-interface NutritionalInfo {
-  calories: number;
-  ingredients: string[];
+export interface NutritionalInfo {
+  calories?: string;
+  servingSize?: string;
+  protein?: string;
+  fat?: string;
+  sugar?: string;
+  carbohydrates?: string;
+  ingredients?: string[];
 }
 
 export interface Product {
@@ -42,3 +47,7 @@ export type PaginatedProductsResponse = {
     totalPages: number;
   };
 };
+
+export interface ProductPageProps {
+  params: Promise<{ slug: string }>;
+}

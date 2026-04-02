@@ -13,6 +13,9 @@
 
   /* Custom Font (if you want to map a specific font family) */
   --font-serif: "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
+
+  /* Define a custom cubic-bezier for a "premium" feel */
+  --transition-timing-function-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* Base Styles */
@@ -37,5 +40,18 @@
 @layer components {
   .nav-link {
     @apply hover:text-el-primary-light dark:hover:text-el-primary-dark transition-colors;
+  }
+
+  .drawer-content {
+    @apply fixed inset-y-0 right-0 z-50 h-full w-full sm:max-w-md border-l border-slate-200 bg-white shadow-2xl;
+    transition: transform 1s var(--transition-timing-function-drawer);
+  }
+
+  .drawer-content[data-state='closed'] {
+    transform: translateX(100%);
+  }
+
+  .drawer-content[data-state='open'] {
+    transform: translateX(0);
   }
 }

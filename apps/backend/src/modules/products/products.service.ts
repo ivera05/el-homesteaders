@@ -4,6 +4,7 @@ import { PaginatedProductsDto } from '@modules/products/dto/paginated-products.d
 import { QueryProductDto } from '@modules/products/dto/query-product.dto';
 import { CreateProductDto } from '@modules/products/dto/create-product.dto';
 import { UpdateProductDto } from '@modules/products/dto/update-product.dto';
+import { ProductDto } from '@modules/products/dto/product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -17,8 +18,8 @@ export class ProductsService {
     return this.productsRepository.save(productDto);
   }
 
-  async findOne(id: string) {
-    return this.productsRepository.findOneById(id);
+  async findBySlug(slug: string): Promise<ProductDto> {
+    return this.productsRepository.findOneBySlug(slug);
   }
 
   async findAll(query: QueryProductDto): Promise<PaginatedProductsDto> {

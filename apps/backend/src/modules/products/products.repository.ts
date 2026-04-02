@@ -7,6 +7,7 @@ import { QueryProductDto } from '@modules/products/dto/query-product.dto';
 import { ProductMapper } from '@modules/products/mappers/product.mapper';
 import { CreateProductDto } from '@modules/products/dto/create-product.dto';
 import { UpdateProductDto } from '@modules/products/dto/update-product.dto';
+import { ProductDto } from '@modules/products/dto/product.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -22,17 +23,17 @@ export class ProductsRepository {
     return this.productRepository.save(ProductMapper.toEntity(product));
   }
 
-  async findOneById(id: string): Promise<ProductEntity> {
+  async findOneBySlug(slug: string): Promise<ProductDto> {
     const product = await this.productRepository.findOne({
-      where: { id },
-      relations: ['inventory', 'categoryProducts', 'categoryProducts.category'],
+      where: { slug },
+      relations: ['inventory'],
     });
 
     if (!product) {
-      throw new NotFoundException(`Product with id ${id} not found`);
+      throw new NotFoundException(`Product with slug ${slug} not found`);
     }
 
-    return product;
+    return ProductMapper.toDto(product);
   }
 
   async findAll(query: QueryProductDto): Promise<PaginatedProductsDto> {
