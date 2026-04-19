@@ -3,11 +3,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { UsersService } from '@modules/users/users.service';
 import { PayloadDto } from '@/common/dto/payload.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly usersService: UsersService) {
-    const jwtSecret = process.env.JWT_SECRET;
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly usersService: UsersService,
+  ) {
+    const jwtSecret = configService.get<string>('JWT_SECRET');
     if (!jwtSecret) {
       throw new Error('JWT_SECRET is not set');
     }
@@ -20,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: PayloadDto) {
-    const user = await this.usersService.findOneById(payload.sub);
+    const user = await this.usersService.findById(payload.sub);
     if (!user) {
       throw new UnauthorizedException();
     }

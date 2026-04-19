@@ -1,5 +1,5 @@
-import { UserRole } from '@modules/users/entities/user.entity';
 import { IsNumber, IsString } from 'class-validator';
+import { UserRole } from '@modules/users/enums/user-role.enum';
 
 export class PayloadDto {
   @IsString()

@@ -4,7 +4,7 @@ const ADMIN_API_KEY = process.env.NEXT_PUBLIC_ADMIN_API_KEY;
 
 type ApiRequestOptions = RequestInit & {
   isAdmin?: boolean;
-  accessToken?: string;
+  method?: string;
 };
 
 export async function apiRequest<T>(
@@ -13,7 +13,6 @@ export async function apiRequest<T>(
 ): Promise<T> {
   const {
     isAdmin = false,
-    accessToken,
     headers: customHeaders,
     ...fetchOptions
   } = options;
@@ -33,12 +32,9 @@ export async function apiRequest<T>(
   headers.set('Content-Type', 'application/json');
   headers.set('x-api-key', apiKey);
 
-  if (accessToken) {
-    headers.set('Authorization', `Bearer ${accessToken}`);
-  }
-
   const response = await fetch(`${API_URL}/${endpoint}`, {
     ...fetchOptions,
+    credentials: "include",
     headers,
   });
 

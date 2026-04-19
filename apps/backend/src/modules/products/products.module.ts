@@ -8,7 +8,13 @@ import { ProductsController } from '@modules/products/products.controller';
 import { ProductStatsEntity } from '@modules/products/entities/product-stats.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InventoryEntity, ProductEntity, ProductStatsEntity])],
+  imports: [
+    TypeOrmModule.forFeature([
+      InventoryEntity,
+      ProductEntity,
+      ProductStatsEntity,
+    ]),
+  ],
   providers: [ProductsService, ProductsRepository],
   controllers: [ProductsController],
   exports: [ProductsService],

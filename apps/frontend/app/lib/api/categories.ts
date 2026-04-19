@@ -1,5 +1,8 @@
-import { CategoryMenuItem, CategoryPaginatedProductsResponse } from "@/app/types/categories";
-import { apiRequest } from "@/app/api/client";
+import {
+  CategoryMenuItem,
+  CategoryPaginatedProductsResponse,
+} from "@/app/lib/types/categories";
+import { apiRequest } from "@/app/lib/api/client";
 
 export const categoriesApi = {
   getMenu: async (): Promise<CategoryMenuItem[]> => await apiRequest('categories/menu'),

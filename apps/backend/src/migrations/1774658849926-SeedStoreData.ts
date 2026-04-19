@@ -21,6 +21,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       // --- CATEGORY: CANDY ---
       {
         catId: categories[0].id,
+        isFeatured: true,
         title: 'Freeze Dried Sour Worms',
         slug: 'sour-worms',
         sku: 'CAN-001',
@@ -54,6 +55,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       },
       {
         catId: categories[0].id,
+        isFeatured: true,
         title: 'Exploding Saltwater Taffy',
         slug: 'taffy',
         sku: 'CAN-004',
@@ -89,6 +91,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       },
       {
         catId: categories[1].id,
+        isFeatured: true,
         title: 'Crunchy Mango Slices',
         slug: 'mango-slices',
         sku: 'FRU-002',
@@ -136,6 +139,7 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
       },
       {
         catId: categories[2].id,
+        isFeatured: true,
         title: 'Spicy Freeze Dried Watermelon',
         slug: 'watermelon',
         sku: 'MEX-002',
@@ -183,9 +187,9 @@ export class SeedStoreData1774658849926 implements MigrationInterface {
 
       // Insert Product
       await queryRunner.query(`
-        INSERT INTO products (id, title, slug, description, price, image_url, sku, weight, weight_unit, nutritional_info)
+        INSERT INTO products (id, title, slug, description, price, image_url, sku, weight, weight_unit, nutritional_info, is_featured)
         VALUES ('${productId}', '${p.title}', '${p.slug}', 'Authentic freeze-dried texture.', ${p.price}, 'https://placehold.co/400',
-                '${p.sku}', ${p.weight}, 'oz', '${JSON.stringify(p.info)}')
+                '${p.sku}', ${p.weight}, 'oz', '${JSON.stringify(p.info)}', ${p.isFeatured ?? false})
       `);
 
       // Insert Inventory

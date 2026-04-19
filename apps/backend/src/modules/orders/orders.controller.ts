@@ -1,5 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { OrdersService } from '@modules/orders/orders.service';
 import { ClientApiKey } from '@modules/api-keys/decorators/api-key.decorator';
 import { QueryOrdersDto } from '@modules/orders/dto/query-orders.dto';

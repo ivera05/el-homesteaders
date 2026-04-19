@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-export default function ProductCard({ imageUrl, name, price, onSelect }: {
-  imageUrl: string, name: string; price: number; onSelect: () => void;
+export default function ProductCard({ imageUrl, name, price, onSelect, onAddToCart }: {
+  imageUrl: string, name: string; price: number; onSelect: () => void; onAddToCart: () => void;
 }) {
   return (
     <div className="bg-white p-4 rounded-xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow h-full flex flex-col">
@@ -12,6 +12,7 @@ export default function ProductCard({ imageUrl, name, price, onSelect }: {
           fill
           unoptimized
           className="object-cover"
+          onClick={onSelect}
         />
       </div>
 
@@ -37,6 +38,7 @@ export default function ProductCard({ imageUrl, name, price, onSelect }: {
 
       <button
         type="button"
+        onClick={onAddToCart}
         className="mt-auto flex w-full items-center justify-center rounded-lg bg-stone-800 px-4 py-2 text-sm text-white hover:bg-stone-700"
       >
         Add to Cart

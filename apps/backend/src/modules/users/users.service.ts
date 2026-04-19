@@ -3,13 +3,13 @@ import { UsersRepository } from '@modules/users/users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor ( private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   async findOneByEmailWithPassword(email: string) {
     return await this.usersRepository.findOneByEmailWithPassword(email);
   }
 
-  async findOneById(id: string) {
+  async findById(id: string) {
     return await this.usersRepository.findById(id);
   }
 

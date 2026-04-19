@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "@/app/components/Navigation";
 import Image from "next/image";
-import { CategoryMenuItem } from "@/app/types/categories";
-import { categoriesApi } from "@/app/api/categories";
+import { CategoryMenuItem } from "@/app/lib/types/categories";
+import { categoriesApi } from "@/app/lib/api/categories";
 import { randomUUID } from "node:crypto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -35,7 +35,7 @@ export default async function RootLayout({
           <div className="flex justify-center">
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="/clear_logo.png"
                 alt="E&L Texas Homesteaders Logo"
                 width={180}
                 height={50}

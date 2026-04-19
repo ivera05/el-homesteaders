@@ -1,5 +1,11 @@
 import { ProductEntity } from '@/modules/products/entities/product.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import CategoryEntity from './category.entity';
 
 @Entity('category_products')

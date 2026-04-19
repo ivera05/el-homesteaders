@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CategoryMenuItem } from "@/app/types/categories";
+import { CategoryMenuItem } from "@/app/lib/types/categories";
 
 type NavigationProps = {
   items: CategoryMenuItem[];

@@ -4,7 +4,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn, JoinColumn,
+  UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 
 import { UserEntity } from '@modules/users/entities/user.entity';

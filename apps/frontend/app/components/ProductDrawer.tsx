@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Product } from "@/app/types";
+import { Product } from "@/app/lib/types";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -11,16 +11,27 @@ interface ProductDrawerProps {
   onClose: () => void;
 }
 
-export default function ProductDrawer({ product, isOpen, onClose }: ProductDrawerProps) {
+export default function ProductDrawer({
+  product,
+  isOpen,
+  onClose,
+}: ProductDrawerProps) {
   if (!product) return null;
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={onClose}>
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <Dialog.Portal forceMount>
         <Dialog.Overlay
           className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm
              transition-opacity duration-300 ease-in-out
+             data-[state=closed]:pointer-events-none
              data-[state=closed]:opacity-0
+             data-[state=open]:pointer-events-auto
              data-[state=open]:opacity-100"
         />
         <Dialog.Content
@@ -72,7 +83,8 @@ export default function ProductDrawer({ product, isOpen, onClose }: ProductDrawe
                 <div className="mt-3 text-center">
                   <Link
                     href={`/product/${product.slug}`}
-                    className="mt-4 w-full text-sm text-slate-500 hover:underline">
+                    className="mt-4 w-full text-sm text-slate-500 hover:underline"
+                  >
                     View Full Product Details
                   </Link>
                 </div>

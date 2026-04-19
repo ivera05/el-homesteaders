@@ -2,7 +2,6 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 export class SeedAdminUserAndPassports1774658742644 implements MigrationInterface {
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     const email = 'elh@mail.com';
     const passwordHash = await bcrypt.hash('elh_P@ss', 10);
@@ -61,5 +60,4 @@ export class SeedAdminUserAndPassports1774658742644 implements MigrationInterfac
       ['ff2c4c9d-d53c-45e7-bece-97c99a881132'],
     );
   }
-
 }

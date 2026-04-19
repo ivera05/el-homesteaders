@@ -11,8 +11,9 @@ export class ProductMapper {
   ): ProductEntity {
     const entity = existingEntity || new ProductEntity();
 
+    if (dto.id !== undefined) entity.id = dto.id;
     if (dto.title !== undefined) entity.title = dto.title;
-    if(dto.slug !== undefined) entity.slug = dto.slug;
+    if (dto.slug !== undefined) entity.slug = dto.slug;
     if (dto.sku !== undefined) entity.sku = dto.sku;
     if (dto.description !== undefined) entity.description = dto.description;
     if (dto.price !== undefined) entity.price = dto.price;
@@ -21,7 +22,7 @@ export class ProductMapper {
     if (dto.weightUnit !== undefined) entity.weightUnit = dto.weightUnit;
 
     // Map complex objects
-    if(dto.inventory !== undefined) {
+    if (dto.inventory !== undefined) {
       entity.inventory = InventoryMapper.toEntity(dto.inventory);
     }
 

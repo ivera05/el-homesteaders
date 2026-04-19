@@ -1,5 +1,5 @@
-import ProductCard from "@/app/components/ProductCard";
-import { productApi } from "@/app/api/products";
+import { productApi } from "@/app/lib/api/products";
+import ProductGrid from "@/app/components/ProductGrid";
 
 export default async function Home() {
   const products = await productApi.getFeaturedProducts();
@@ -11,11 +11,7 @@ export default async function Home() {
         <h2 className="text-3xl font-serif text-stone-800 dark:text-stone-100 mb-8 text-center">
           Featured Treats
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {products.map((p) => (
-            <ProductCard key={p.slug} imageUrl={p.imageUrl} name={p.title} price={p.price} />
-          ))}
-        </div>
+        <ProductGrid items={products} />
       </section>
 
       {/* Store Intro Section */}

@@ -1,5 +1,5 @@
-import { productApi } from "@/app/api/products";
-import { ProductPageProps } from "@/app/types";
+import { productApi } from "@/app/lib/api/products";
+import { ProductPageProps } from "@/app/lib/types";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import NutritionLabel from "@/app/components/NutritionalLabel";

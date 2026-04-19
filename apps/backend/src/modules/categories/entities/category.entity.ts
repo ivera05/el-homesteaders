@@ -5,7 +5,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  ManyToOne, JoinColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { CategoryProductsEntity } from './category-products.entity';
 

@@ -11,10 +11,13 @@ export class InventoryMapper {
     const entity = existingEntity || new InventoryEntity();
 
     if (dto.availableQty !== undefined) entity.availableQty = dto.availableQty;
-    if (dto.pendingShipQty !== undefined) entity.pendingShipQty = dto.pendingShipQty;
+    if (dto.pendingShipQty !== undefined)
+      entity.pendingShipQty = dto.pendingShipQty;
     if (dto.shippedQty !== undefined) entity.shippedQty = dto.shippedQty;
-    if (dto.processingQty !== undefined) entity.processingQty = dto.processingQty;
-    if (dto.lowStockThreshold !== undefined) entity.lowStockThreshold = dto.lowStockThreshold;
+    if (dto.processingQty !== undefined)
+      entity.processingQty = dto.processingQty;
+    if (dto.lowStockThreshold !== undefined)
+      entity.lowStockThreshold = dto.lowStockThreshold;
 
     return entity;
   }

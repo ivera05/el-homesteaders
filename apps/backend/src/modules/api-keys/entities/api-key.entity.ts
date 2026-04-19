@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ApiKeyType } from '@modules/api-keys/enums/api-key-type.enum';
 
 @Entity('api_keys')

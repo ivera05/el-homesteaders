@@ -8,12 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { AddressEntity } from '@modules/users/entities/address.entity';
-
-export enum UserRole {
-  CLIENT = 'client',
-  SUPPORT = 'support',
-  ADMIN = 'admin',
-}
+import { CartEntity } from '@modules/carts/entities/cart.entity';
+import { UserRole } from '@modules/users/enums/user-role.enum';
 
 @Entity('users')
 export class UserEntity {
@@ -43,6 +39,9 @@ export class UserEntity {
 
   @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];
+
+  @OneToMany(() => CartEntity, (cart) => cart.user, { nullable: true })
+  cart: CartEntity;
 
   @OneToMany(() => AddressEntity, (address) => address.user)
   addresses: AddressEntity[];

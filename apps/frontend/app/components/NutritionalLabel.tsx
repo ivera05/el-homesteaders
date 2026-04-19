@@ -1,4 +1,4 @@
-import { NutritionalInfo } from "@/app/types";
+import { NutritionalInfo } from "@/app/lib/types";
 
 export default function NutritionLabel({ info }: { info: NutritionalInfo }) {
   return (

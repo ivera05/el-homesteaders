@@ -10,6 +10,8 @@ import { ProductsModule } from '@modules/products/products.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { ApiKeysModule } from '@modules/api-keys/api-keys.module';
 import { CategoriesModule } from '@modules/categories/categories.module';
+import { CartsModule } from '@modules/carts/carts.module';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +30,7 @@ async function bootstrap() {
     include: [
       ApiKeysModule,
       AuthModule,
+      CartsModule,
       CategoriesModule,
       OrdersModule,
       ProductsModule,
@@ -39,9 +42,13 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   app.enableCors({
-    origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
   });
+
+  app.use(cookieParser());
 
   const logger = app.get(NestLensLogger);
   app.useLogger(logger);

@@ -1,4 +1,4 @@
-import { Product } from "@/app/types/products";
+import { Product } from "@/app/lib/types/products";
 
 export interface CategoryMenuItem {
   id: string;

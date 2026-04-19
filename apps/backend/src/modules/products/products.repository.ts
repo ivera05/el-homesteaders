@@ -14,8 +14,7 @@ export class ProductsRepository {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
-  ) {
-  }
+  ) {}
 
   async save(
     product: CreateProductDto | UpdateProductDto,
@@ -42,27 +41,27 @@ export class ProductsRepository {
 
     const where = isFeatured
       ? [
-        {
-          ...(isFeatured
-            ? {
-              isFeatured: true,
-              featuredUntil: IsNull(),
-            }
-            : {}),
-        },
-        {
-          ...(isFeatured
-            ? {
-              isFeatured: true,
-              featuredUntil: MoreThan(new Date()),
-            }
-            : {}),
-        },
-      ]
+          {
+            ...(isFeatured
+              ? {
+                  isFeatured: true,
+                  featuredUntil: IsNull(),
+                }
+              : {}),
+          },
+          {
+            ...(isFeatured
+              ? {
+                  isFeatured: true,
+                  featuredUntil: MoreThan(new Date()),
+                }
+              : {}),
+          },
+        ]
       : slugs && slugs.length > 1
         ? {
-          slug: In(slugs),
-        }
+            slug: In(slugs),
+          }
         : {};
 
     const [items, total] = await this.productRepository.findAndCount({

@@ -2,7 +2,8 @@ import { UserEntity } from '@modules/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinColumn,
+  Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,

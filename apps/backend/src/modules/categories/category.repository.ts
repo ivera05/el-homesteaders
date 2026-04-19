@@ -37,21 +37,22 @@ export class CategoriesRepository {
     });
   }
 
-  async findCategoryProducts(slug: string, query: QueryCategoryDto ): Promise<PaginatedCategoryProductsResponseDto> {
+  async findCategoryProducts(
+    slug: string,
+    query: QueryCategoryDto,
+  ): Promise<PaginatedCategoryProductsResponseDto> {
     const { page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const [items, total] = await this.categoryRepository.findAndCount({
       where: { slug },
-      relations: [
-        'categoryProducts',
-        'categoryProducts.product',
-      ],
+      relations: ['categoryProducts', 'categoryProducts.product'],
       skip,
       take: limit,
     });
 
-    const categoryProducts = items.flatMap(item => item.categoryProducts)
+    const categoryProducts = items
+      .flatMap((item) => item.categoryProducts)
       .sort((a, b) => a.sortOrder - b.sortOrder);
 
     return {

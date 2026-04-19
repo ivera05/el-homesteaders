@@ -1,5 +1,5 @@
-import { CategoryPageProps } from "@/app/types";
-import { categoriesApi } from "@/app/api/categories";
+import { CategoryPageProps } from "@/app/lib/types";
+import { categoriesApi } from "@/app/lib/api/categories";
 import Link from "next/link";
 import ProductGrid from "@/app/components/ProductGrid";
 

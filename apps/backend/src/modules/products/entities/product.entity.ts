@@ -1,7 +1,8 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinColumn,
+  Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -34,7 +35,6 @@ export class ProductEntity {
 
   @Column({ name: 'image_url' })
   imageUrl: string;
-
 
   @Column('decimal', { precision: 10, scale: 2 })
   weight: number;

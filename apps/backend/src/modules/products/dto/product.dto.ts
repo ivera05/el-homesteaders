@@ -6,7 +6,9 @@ import {
   IsString,
   IsUUID,
   IsDateString,
-  ValidateNested, Matches, IsBoolean,
+  ValidateNested,
+  Matches,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { NutritionalInfoDto } from './nutritional-info.dto';
@@ -18,7 +20,7 @@ export class ProductDto {
     description: 'The unique identifier for the product',
   })
   @IsUUID()
-  id: string;
+  id?: string | undefined;
 
   @ApiPropertyOptional({ type: () => InventoryDto })
   @IsOptional()
@@ -103,6 +105,7 @@ export class ProductDto {
     example: '2024-01-01T00:00:00.000Z',
     description: 'Indicates until when the product is featured',
   })
+  @IsOptional()
   featuredUntil?: Date;
 
   @ApiProperty({
